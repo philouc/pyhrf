@@ -11,9 +11,10 @@ from pyhrf.ui.treatment import jde_vol_from_files, jde_surf_from_files
 from pyhrf.parcellation import parcellation_report, parcellation_for_jde
 
 from pyhrf.jde.models import BOLDGibbsSampler as BG
+from pyhrf.jde.models import BOLDGibbsSampler_AR as BGAR
 from pyhrf.jde.beta import BetaSampler as BS
 from pyhrf.jde.nrl.bigaussian import NRLSampler as NS
-from pyhrf.jde.nrl.bigaussian import NRLARSampler
+from pyhrf.jde.nrl.ar import NRLARSampler
 from pyhrf.jde.nrl.bigaussian import BiGaussMixtureParamsSampler as BGMS
 from pyhrf.jde.hrf import RHSampler as HVS
 from pyhrf.jde.hrf import HRFSampler as HS
@@ -201,47 +202,47 @@ class JDEARnoiseTest(unittest.TestCase):
 
         #print 'Create sampler_params_for_single_test ...'
         self.sampler_params_for_single_test = {
-            BG.P_NB_ITERATIONS : 100,
-            BG.P_SMPL_HIST_PACE : 1,
-            BG.P_OBS_HIST_PACE : 1,
+            BGAR.P_NB_ITERATIONS : 100,
+            BGAR.P_SMPL_HIST_PACE : 1,
+            BGAR.P_OBS_HIST_PACE : 1,
             # level of spatial correlation = beta
-            BG.P_BETA : BS({
+            BGAR.P_BETA : BS({
                     BS.P_SAMPLE_FLAG : False,
                     BS.P_USE_TRUE_VALUE : False,
                     BS.P_VAL_INI : np.array([0.6]),
                     }),
             # HRF
-            BG.P_HRF : HRFARSampler({
+            BGAR.P_HRF : HRFARSampler({
                     HS.P_SAMPLE_FLAG : False,
                     HS.P_USE_TRUE_VALUE : True,
                     HS.P_PRIOR_TYPE : 'singleHRF',
                     }),
             # HRF variance
-            BG.P_RH : HVS({
+            BGAR.P_RH : HVS({
                     HVS.P_USE_TRUE_VALUE : True,
                     HVS.P_SAMPLE_FLAG : False,
                     }),
             # neural response levels (stimulus-induced effects)
-            BG.P_NRLS : NRLARSampler({
+            BGAR.P_NRLS : NRLARSampler({
                     NS.P_USE_TRUE_NRLS : True,
                     NS.P_USE_TRUE_LABELS : True,
                     NS.P_SAMPLE_FLAG : False,
                     NS.P_SAMPLE_LABELS : False,
                     }),
-            BG.P_MIXT_PARAM : BGMS({
+            BGAR.P_MIXT_PARAM : BGMS({
                     BGMS.P_SAMPLE_FLAG : False,
                     BGMS.P_USE_TRUE_VALUE : True,
                     }),
-            BG.P_NOISE_VAR : NoiseVarianceARSampler({
+            BGAR.P_NOISE_VAR : NoiseVarianceARSampler({
                     NoiseVarianceARSampler.P_SAMPLE_FLAG : False,
                     NoiseVarianceARSampler.P_USE_TRUE_VALUE : True,
                     }),
-            BG.P_NOISE_ARP   : NoiseARParamsSampler({
+            BGAR.P_NOISE_ARP   : NoiseARParamsSampler({
                     NoiseARParamsSampler.P_SAMPLE_FLAG : False,
                     NoiseARParamsSampler.P_USE_TRUE_VALUE : True,
                     }),
 
-            BG.P_CHECK_FINAL_VALUE : 'raise', #print or raise
+            BGAR.P_CHECK_FINAL_VALUE : 'raise', #print or raise
             }
 
 
@@ -251,42 +252,42 @@ class JDEARnoiseTest(unittest.TestCase):
             BG.P_SMPL_HIST_PACE : 1,
             BG.P_OBS_HIST_PACE : 1,
             # level of spatial correlation = beta
-            BG.P_BETA : BS({
+            BGAR.P_BETA : BS({
                     BS.P_SAMPLE_FLAG : True,
                     BS.P_USE_TRUE_VALUE : False,
                     BS.P_VAL_INI : np.array([0.6]),
                     }),
             # HRF
-            BG.P_HRF : HRFARSampler({
+            BGAR.P_HRF : HRFARSampler({
                     HS.P_SAMPLE_FLAG : True,
                     HS.P_USE_TRUE_VALUE : False,
                     HS.P_NORMALISE : 1.,
                     }),
             # HRF variance
-            BG.P_RH : HVS({
+            BGAR.P_RH : HVS({
                     HVS.P_USE_TRUE_VALUE : False,
                     HVS.P_SAMPLE_FLAG : True,
                     }),
             # neural response levels (stimulus-induced effects)
-            BG.P_NRLS : NRLARSampler({
+            BGAR.P_NRLS : NRLARSampler({
                     NS.P_USE_TRUE_NRLS : False,
                     NS.P_USE_TRUE_LABELS : False,
                     NS.P_SAMPLE_FLAG : True,
                     NS.P_SAMPLE_LABELS : True,
                     }),
-            BG.P_MIXT_PARAM : BGMS({
+            BGAR.P_MIXT_PARAM : BGMS({
                     BGMS.P_SAMPLE_FLAG : True,
                     BGMS.P_USE_TRUE_VALUE : False,
                     }),
-            BG.P_NOISE_VAR : NoiseVarianceARSampler({
+            BGAR.P_NOISE_VAR : NoiseVarianceARSampler({
                     NoiseVarianceARSampler.P_SAMPLE_FLAG : True,
                     NoiseVarianceARSampler.P_USE_TRUE_VALUE : False,
                     }),
-            BG.P_NOISE_ARP : NoiseARParamsSampler({
+            BGAR.P_NOISE_ARP : NoiseARParamsSampler({
                     NoiseARParamsSampler.P_SAMPLE_FLAG : True,
                     NoiseARParamsSampler.P_USE_TRUE_VALUE : False,
                     }),
-            BG.P_CHECK_FINAL_VALUE : 'print', #print or raise
+            BGAR.P_CHECK_FINAL_VALUE : 'print', #print or raise
             }
 
     def tearDown(self):
