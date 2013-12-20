@@ -197,7 +197,9 @@ class JDEARnoiseTest(unittest.TestCase):
         self.nbIt = 3
         self.pfMethod = 'es'
 
-        simu = simulate_bold(self.tmp_dir, spatial_size='random_small')
+        simu = simulate_bold(self.tmp_dir, noise_type = 'ar1_gaussian',\
+							 v_corr = 0.3, order = 1, \
+							 spatial_size='random_small')
         self.data_simu = FmriData.from_simulation_dict(simu)
 
         #print 'Create sampler_params_for_single_test ...'

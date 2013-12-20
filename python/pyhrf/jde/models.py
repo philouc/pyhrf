@@ -2647,7 +2647,8 @@ import pyhrf.boldsynth.scenarios as sim
 from pyhrf import Condition
 
 def simulate_bold(output_dir=None, noise_scenario='high_snr',
-                  spatial_size='tiny', normalize_hrf=True):
+				  noise_type='white_gaussian', spatial_size='tiny', 
+				  order = 0, v_corr = 0, normalize_hrf=True):
 
     drift_var = 10.
 
@@ -2685,7 +2686,12 @@ def simulate_bold(output_dir=None, noise_scenario='high_snr',
                       m_act=2.2, v_act=.3, v_inact=.3,
                       label_map=lmap2),
                       ]
+    if noise_type == 'ar1_gaussian':
+        noise_generator = sim.create_AR_noise
+    else: 	# noise_type == 'white_gaussian'
+        noise_generator = sim.create_gaussian_noise
 
+		
     simulation_steps = {
         'dt' : dt,
         'dsf' : dsf,
@@ -2709,7 +2715,11 @@ def simulate_bold(output_dir=None, noise_scenario='high_snr',
         'stim_induced_signal' : sim.create_stim_induced_signal,
         # Noise
         'v_noise' : v_noise,
-        'noise' : sim.create_gaussian_noise,
+        'noise_order':  order,
+        'noise_v_corr': v_corr,
+        'noise' : noise_generator, 
+        # sim.create_gaussian_noise(bold_shape, v_noise, m_noise=0.)
+        # sim.create_AR_noise(bold_shape, v_noise, order=2, v_corr=0.1)
         # Drift
         'drift_order' : 4,
         'drift_coeff_var' : drift_var,
