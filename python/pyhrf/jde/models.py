@@ -1639,6 +1639,7 @@ class BOLDGibbsSampler_AR(xmlio.XMLParamDrivenClass, GibbsSampler):
     P_RANDOM_SEED = 'numpyRandomSeed'
     P_STOP_THRESHOLD = 'stop_criterion_threshold'
     P_CRIT_DIFF_FROM_START = 'crit_diff_from_start'
+    P_CHECK_FINAL_VALUE = 'check_final_value_with_truth'
 
     defaultParameters = {
         P_OBS_HIST_PACE : -1.,
@@ -1661,6 +1662,7 @@ class BOLDGibbsSampler_AR(xmlio.XMLParamDrivenClass, GibbsSampler):
         P_BETA : BetaSampler(),
         P_STOP_THRESHOLD : -1,
         P_CRIT_DIFF_FROM_START : False,
+        P_CHECK_FINAL_VALUE : None,
         }
 
     if pyhrf.__usemode__ == pyhrf.DEVEL:
@@ -1706,6 +1708,7 @@ class BOLDGibbsSampler_AR(xmlio.XMLParamDrivenClass, GibbsSampler):
         globalObsHistPace = self.parameters[self.P_GLOB_OBS_HIST_PACE]
         smplHistPace = self.parameters[self.P_SMPL_HIST_PACE]
         nbSweeps = self.parameters[self.P_NB_SWEEPS]
+        check_ftval = self.parameters[self.P_CHECK_FINAL_VALUE]
 
         if obsHistPace > 0. and obsHistPace < 1:
             obsHistPace = max(1,int(round(nbIt * obsHistPace)))
