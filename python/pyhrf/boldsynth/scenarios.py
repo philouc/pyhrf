@@ -97,6 +97,7 @@ def create_3Dlabels_Potts(condition_defs,beta,dims,mask):
     return np.array(labels)
 
 def create_AR_noise(bold_shape, v_noise, order=2, v_corr=0.1):
+	# v_noise: innovative process (as white gaussian)
     noise = np.random.randn(*bold_shape)
     nbVox = bold_shape[1]
     length = bold_shape[0]

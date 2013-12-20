@@ -2686,10 +2686,10 @@ def simulate_bold(output_dir=None, noise_scenario='high_snr',
                       m_act=2.2, v_act=.3, v_inact=.3,
                       label_map=lmap2),
                       ]
-	if noise_type == 'ar1_gaussian':
-		noise_generator = sim.create_AR_noise
-	else: 	# noise_type == 'white_gaussian'
-		noise_generator = sim.create_gaussian_noise
+    if noise_type == 'ar1_gaussian':
+        noise_generator = sim.create_AR_noise
+    else: 	# noise_type == 'white_gaussian'
+        noise_generator = sim.create_gaussian_noise
 
 		
     simulation_steps = {
